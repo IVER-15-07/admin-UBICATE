@@ -8,6 +8,7 @@ import DashboardPage from "../pages/admin/DashboardPage";
 import Moderator from "../pages/admin/Moderator";
 import Reports from "../pages/admin/Reports";
 import Subscribers from "../pages/admin/Subscribers";
+import Category from "../pages/admin/Category";
 
 import Management from "../pages/superAdmin/Management";
 
@@ -32,6 +33,7 @@ export default function AppRoutes() {
             <Route path="/moderator" element={<Moderator />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/subscribers" element={<Subscribers />} />
+            <Route path="/category" element={<Category />} />
 
           </Route>
 

@@ -14,7 +14,7 @@ const NAV_ITEMS = [
     { key: "suscriptores", path: "/subscribers", label: "Suscriptores", dot: "bg-slate-300", roles: ["moderator"], icon: <SuscriptoresIcon /> },
     { key: "reportes", path: "/reports", label: "Reportes", dot: "bg-slate-300", roles: ["moderator"], icon: <ReportesIcon /> },
     { key: "gestion", path: "/management", label: "Gestión Admin", dot: "bg-amber-500", roles: ["admin"], icon: <GestionIcon /> },
-    { key: "categorias", path: "/categories", label: "Categorías de Mapa", dot: "bg-slate-300", roles: ["admin"], icon: <CategoriasIcon /> },
+    { key: "categorias", path: "/category", label: "Categorías de Mapa", dot: "bg-slate-300", roles: ["admin"], icon: <CategoriasIcon /> },
     { key: "ajustes", path: "/settings", label: "Ajustes", dot: "bg-slate-300", roles: ["admin"], dividerBefore: true, icon: <AjustesIcon /> },
 ];
 

@@ -1,14 +1,17 @@
 import { useSuperAdmin } from "../../hooks/superAdmin/useSuperAdmin";
 import AdministradoresTable from "../../components/superAdmin/management/AdministradoresTable";
 import ConfigPrecios from "../../components/superAdmin/management/ConfigPrecios";
+import Modal from "../../components/ui/Modal";
 
 const Management = () => {
   const {
-    admins, precios, recaudacion,
-    guardando, guardado,
+    admins, loadingAdmins, precios, recaudacion,
+    guardando, guardado, modal, form, submitting, error,
     handlePrecioChange, handleGuardarTarifas,
     handleNuevoAdmin, handleEditar, handleEliminar,
+    handleCloseModal, handleConfirmModal, handleFormChange,
   } = useSuperAdmin();
+
   return (
     <div className="flex flex-col gap-5">
 
@@ -36,6 +39,7 @@ const Management = () => {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-5">
         <AdministradoresTable
           admins={admins}
+          loading={loadingAdmins}
           onEditar={handleEditar}
           onEliminar={handleEliminar}
         />
@@ -48,6 +52,76 @@ const Management = () => {
           onGuardar={handleGuardarTarifas}
         />
       </div>
+
+      <Modal
+        open={modal.open}
+        title={modal.mode === "create" ? "Nuevo Administrador" : modal.mode === "edit" ? "Editar Administrador" : "Eliminar Administrador"}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmModal}
+        confirmText={modal.mode === "delete" ? "Eliminar" : "Guardar"}
+        cancelText="Cancelar"
+        danger={modal.mode === "delete"}
+        loading={submitting}
+      >
+        {modal.mode === "delete" ? (
+          <div className="space-y-3">
+            <p className="text-sm text-slate-600">
+              ¿Seguro que deseas eliminar la cuenta de <strong>{modal.target?.nombre}</strong>?
+            </p>
+            <p className="text-xs text-slate-400">
+              Esta acción quitará el acceso del administrador y no se puede deshacer.
+            </p>
+          </div>
+        ) : (
+          <div className="grid gap-4">
+            <div className="grid gap-1.5">
+              <label className="text-xs font-medium text-slate-500">Nombre</label>
+              <input
+                type="text"
+                value={form.nombre}
+                onChange={(e) => handleFormChange("nombre", e.target.value)}
+                className="rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition-colors focus:border-slate-400"
+                placeholder="Nombre completo"
+              />
+            </div>
+
+            <div className="grid gap-1.5">
+              <label className="text-xs font-medium text-slate-500">Correo</label>
+              <input
+                type="email"
+                value={form.email}
+                onChange={(e) => handleFormChange("email", e.target.value)}
+                className="rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition-colors focus:border-slate-400"
+                placeholder="admin@correo.com"
+              />
+            </div>
+
+            <div className="grid gap-1.5">
+              <label className="text-xs font-medium text-slate-500">Contraseña {modal.mode === "edit" ? "(opcional)" : ""}</label>
+              <input
+                type="password"
+                value={form.password}
+                onChange={(e) => handleFormChange("password", e.target.value)}
+                className="rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition-colors focus:border-slate-400"
+                placeholder={modal.mode === "edit" ? "Dejar vacío para no cambiar" : "Contraseña"}
+              />
+            </div>
+
+            <div className="grid gap-1.5">
+              <label className="text-xs font-medium text-slate-500">Confirmar contraseña</label>
+              <input
+                type="password"
+                value={form.confirmPassword}
+                onChange={(e) => handleFormChange("confirmPassword", e.target.value)}
+                className="rounded-xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition-colors focus:border-slate-400"
+                placeholder="Confirma contraseña"
+              />
+            </div>
+
+            {error ? <p className="text-sm text-rose-500">{error}</p> : null}
+          </div>
+        )}
+      </Modal>
 
     </div>
   )
